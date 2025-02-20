@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kamera Arayüzü</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            font-family: Arial, sans-serif;
+        }
+        .device {
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(to bottom, #ffd700 0%, #ffd700 30%, #000000 70%, #000000 100%);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(255,255,255,0.1);
+            margin: auto;
+        }
+        .logo {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: black;
+        }
+        .camera-container {
+            width: 440px;
+            height: 350px;
+            background-color: #ffd700;
+            border-radius: 10px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-top: 30px;
+        }
+        .camera-view {
+            width: 400px;
+            height: 300px;
+            background-color: white;
+            border: 2px solid #333;
+            border-radius: 10px;
+            position: relative;
+        }
+        .label {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: bold;
+            color: white;
+            padding: 5px;
+            background: #ffd700;
+            border-radius: 10px;
+            z-index: 2;
+            text-align: center;
+            width: 100%;
+        }
+        .controls {
+            width: 150px;
+            height: 150px;
+            position: relative;
+            margin-top: 40px;
+        }
+        .control-button {
+            width: 0;
+            height: 0;
+            border-style: solid;
+            position: absolute;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .up {
+            border-width: 0 20px 30px 20px;
+            border-color: transparent transparent #333 transparent;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .down {
+            border-width: 30px 20px 0 20px;
+            border-color: #333 transparent transparent transparent;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .left {
+            border-width: 20px 30px 20px 0;
+            border-color: transparent #333 transparent transparent;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+        .right {
+            border-width: 20px 0 20px 30px;
+            border-color: transparent transparent transparent #333;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+        }
+        img {  
+            width: auto;
+            max-width: 100%;
+            height: auto; 
+        }
+    </style>
+</head>
+<body>
+    <div class="device">
+        <div class="logo">Y</div>
+        <div class="camera-container">
+            <div class="label">Kamera Görüntüsü</div>
+            <div class="camera-view">
+                <img src="" id="photo">
+            </div>
+        </div>
+        <div class="controls">
+            <table>
+                <tr>
+                    <td colspan="3" align="center">
+                        <button class="control-button up" onmousedown="toggleCheckbox('up');" ontouchstart="toggleCheckbox('up');" onmouseup="toggleCheckbox('stop');" ontouchend="toggleCheckbox('stop');"></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">
+                        <button class="control-button left" onmousedown="toggleCheckbox('left');" ontouchstart="toggleCheckbox('left');" onmouseup="toggleCheckbox('stop');" ontouchend="toggleCheckbox('stop');"></button>
+                    </td>
+                    <td align="center">
+                        <button class="control-button right" onmousedown="toggleCheckbox('right');" ontouchstart="toggleCheckbox('right');" onmouseup="toggleCheckbox('stop');" ontouchend="toggleCheckbox('stop');"></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="center">
+                        <button class="control-button down" onmousedown="toggleCheckbox('down');" ontouchstart="toggleCheckbox('down');" onmouseup="toggleCheckbox('stop');" ontouchend="toggleCheckbox('stop');"></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function toggleCheckbox(action) {
+            console.log(action); // Test if function is being called
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/action?go=" + action, true);
+            xhr.send();
+        }
+
+        window.onload = function() {
+            document.getElementById("photo").src = window.location.href.slice(0, -1) + ":81/stream";
+        };
+    </script>
+</body>
+</html>
